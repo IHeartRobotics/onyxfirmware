@@ -28,7 +28,7 @@ Controller *system_controller;
 Controller::Controller(Geiger &g) : m_geiger(g) {
   m_sleeping=false;
   m_powerup=false;
-  m_log_interval_seconds = 60*30;
+  m_log_interval_seconds = 60;
   rtc_clear_alarmed();
   rtc_enable_alarm(RTC);
   m_alarm_log = false;
@@ -350,11 +350,10 @@ void Controller::receive_gui_event(char *event,char *value) {
     m_gui->jump_to_screen(0);
   } else
   if(strcmp(event,"Save:LogInter") == 0) {
-    uint8 l1 = m_gui->get_item_state_uint8("LOGINTER1");
-    uint8 l2 = m_gui->get_item_state_uint8("LOGINTER2");
-    uint8 l3 = m_gui->get_item_state_uint8("LOGINTER3");
-    uint32_t log_interval_mins = (l1*100) + (l2*10) + l3;
-    m_log_interval_seconds = log_interval_mins*60;
+    uint8 d1 = m_gui->get_item_state_uint8("LOGINTER1");
+    uint8 d2 = m_gui->get_item_state_uint8("LOGINTER2");
+    uint8 d3 = m_gui->get_item_state_uint8("LOGINTER3");
+    m_log_interval_seconds = (d1*100) + (d2*10) + d3;
     
     char sloginterval[50];
     sprintf(sloginterval,"%u",m_log_interval_seconds);
